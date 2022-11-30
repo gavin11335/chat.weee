@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #inputBox{
+    width: calc(100% - 10px);
+    height: auto;
+    position: fixed;
+    bottom: 5px;
+}
+#button{
+    background-color: #dae0e3;
+    border-width: 0px;
+    border-radius: 10%;
+    width: 50px;
+    height: 30px;
+}
+#inputText{
+    width: calc(100% - 65px)
+}
+#inputName{
+    width: 100px;
+}
+#chatLog{
+    margin-bottom: 65px;
+}
+.name{
+    margin: 0px;
+    font-weight: bold;
+    color: blueviolet;
+}
+.message{
+    margin: 0px;
+}
+.date{
+    text-align: right;
+    margin: 0px;
+    font-weight: bold;
+    color: #dae0e3;
+}
+    </style>
+    <title>Gavin的聊天室</title>
+</head>
+<body>
+    <div id="chatLog">
+        
+    </div>
+    <div id="inputBox">
+        <hr>
+        <input type="text" maxlength="10" id="inputName" placeholder="名字" required>
+        <input type="text" maxlength="200" id="inputText" placeholder="内容" required>
+        <button id="button">发送</button>
+    </div>
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <script>
+    const inputName = document.getElementById('inputName')
+const inputText = document.getElementById('inputText')
+const chatLog = document.getElementById('chatLog')
+const button = document.getElementById('button')
+const socket = io.connect('ws://localhost:5000/')
+let d = new Date()
+year = d.getFullYear()
+month = d.getMonth()
+day = d.getDate()
+time = year + '' + month + day
+
+var crr = ''
+socket.on('cr',function (...cr) {
+    function inner() {
+        crr = crr + cr
+        chatLog.innerHTML = crr
+    }
+    inner()
+
+    button.onclick = function () {
+        var data = {
+            name: inputName.value,
+            msg: inputText.value,
+            date: time
+        }
+
+        socket.emit('msg',data)
+    }
+})
+
+    </script>
+</body>
+</html>

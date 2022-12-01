@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        #inputBox{
+#inputBox{
     width: calc(100% - 10px);
     height: auto;
     position: fixed;
@@ -56,7 +56,7 @@
     </div>
     <script src="http://localhost:5000/socket.io/socket.io.js"></script>
     <script>
-    const inputName = document.getElementById('inputName')
+const inputName = document.getElementById('inputName')
 const inputText = document.getElementById('inputText')
 const chatLog = document.getElementById('chatLog')
 const button = document.getElementById('button')
@@ -64,8 +64,9 @@ const socket = io.connect('ws://localhost:5000/')
 let d = new Date()
 year = d.getFullYear()
 month = d.getMonth()
+realMonth = month + 1;
 day = d.getDate()
-time = year + '' + month + day
+time = year + '' + realMonth + day
 
 var crr = ''
 socket.on('cr',function (...cr) {

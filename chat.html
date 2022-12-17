@@ -5,86 +5,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-#inputBox{
+#main{
     width: calc(100% - 10px);
+    background-color: antiquewhite;
     height: auto;
     position: fixed;
     bottom: 5px;
+    display: none;
 }
-#button{
-    background-color: #dae0e3;
-    border-width: 0px;
-    border-radius: 10%;
-    width: 50px;
-    height: 30px;
-}
-#inputText{
+#inputMsg{
     width: calc(100% - 65px)
-}
-#inputName{
-    width: 100px;
 }
 #chatLog{
     margin-bottom: 65px;
-}
-.name{
-    margin: 0px;
-    font-weight: bold;
-    color: blueviolet;
-}
-.message{
-    margin: 0px;
-}
-.date{
-    text-align: right;
-    margin: 0px;
-    font-weight: bold;
-    color: #dae0e3;
+    display: none;
 }
     </style>
     <title>Gavin的聊天室</title>
 </head>
 <body>
+    <div id="nickPage">
+        <p>输入你想使用的用户名</p>
+        <input type="text" id="nickText" maxlength="20" placeholder="Nickname" required>
+        <button id="nickButton">GO!</button>
+    </div>
     <div id="chatLog">
-        
+
     </div>
-    <div id="inputBox">
+    <div id="main">
         <hr>
-        <input type="text" maxlength="10" id="inputName" placeholder="名字" required>
-        <input type="text" maxlength="200" id="inputText" placeholder="内容" required>
-        <button id="button">发送</button>
+        <input type="text" maxlength="200" id="inputMsg" placeholder="内容" required>
+        <button id="msgButton">发送</button>
     </div>
-    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-const inputName = document.getElementById('inputName')
-const inputText = document.getElementById('inputText')
-const chatLog = document.getElementById('chatLog')
-const button = document.getElementById('button')
 const socket = io.connect('ws://localhost:5000/')
-let d = new Date()
-year = d.getFullYear()
-month = d.getMonth()
-realMonth = month + 1;
-day = d.getDate()
-time = year + '' + realMonth + day
+const nickName = document.getElementById('nickText')
+const nickButton = document.getElementById('nickButton')
+const nickPage = document.getElementById('nickPage')
+const main = document.getElementById('main')
+const chatLog = document.getElementById('chatLog')
 
-var crr = ''
-socket.on('cr',function (...cr) {
-    function inner() {
-        crr = crr + cr
-        chatLog.innerHTML = crr
-    }
-    inner()
+nickButton.onclick = function () {
+    socket.emit('nick',nickName.value)
+    console.log('用户名已发送');
+    nickPage.style.display = 'none'
+    main.style.display = 'block'
+    chatLog.style.display = 'block'
+}
 
-    button.onclick = function () {
-        var data = {
-            name: inputName.value,
-            msg: inputText.value,
-            date: time
-        }
+const inputMsg = document.getElementById('inputMsg')
+const msgButton = document.getElementById('msgButton')
 
-        socket.emit('msg',data)
-    }
+msgButton.onclick = function () {
+   socket.emit('msg',inputMsg.value)
+   console.log('消息已发送');
+}
+
+socket.on('serverMsg',function (...data) {
+    chatLog.innerText += data
 })
 
     </script>

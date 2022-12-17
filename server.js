@@ -1,74 +1,76 @@
-const { Socket } = require('dgram');
+const hostname = '127.0.0.1';
+const port = '5000';
 const fs = require('fs');
-const { connect } = require('http2');
-const http = require('node:http');
-const hostname = '0.0.0.0';
-const port = 5000;
-const io = require('socket.io')
-var page
-var html
+const io = require('socket.io');
+const http = require('http');
+const { Socket } = require('dgram');
 
-//读取发送给客户端的html页面
-fs.readFile('./chat.html',function (err,pagee) {
+var chatLog
+/* fs.readFile('./chatLog.txt','utf8',function (err,data) {
     if (err) {
         console.log(err);
+        return;
     }
 
-    page = pagee
-    console.log('读取html成功');
+    chatLog = data
+}) */
+
+setInterval(() => {
+    fs.readFile('./chatLog.txt','utf8',function (err,data) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+    chatLog = data
+    })
+}, 1000);
+
+var page
+fs.readFile('./chat.html',function (err,data) {
+    if (err) {
+        console.log(err);
+        return
+    }
+
+    page = data
 })
 
-//读取chatRecord.json并把数据转化成js数组
-var chatRecord = fs.readFileSync('./chatRecord.json','utf-8')
-var crr = JSON.parse(chatRecord)
-
-//遍历crr中的内容并生成消息html
-for (const item of crr) {
-    html = '' + `
-    <div class="msg">
-        <p class="name">${item.name}</p>
-        <p class="message">${item.msg}</p>
-        <p class="date">${item.date}</p>
-    </div>
-    `
-}
-
-//创建服务器
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.end(page);
-  });
+    res.end(page); 
+});
 
-//监听
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+    console.log(`Server running at http://${hostname}:${port}/`);
 });
 
 const ws = io.listen(server)
 
 ws.on('connection',function (socket) {
-    console.log('有一个客户端已经连接');
-    socket.emit('cr',html)
+    console.log('有一个客户端已连接');
+ 
+    socket.emit('serverMsg',chatLog)
 
-    var hhtml
-    socket.on('msg',function (...data) {       
-        console.log(data);
-        
-        //遍历客户端发送回来的数据，并转换成消息html
-        for (const item of data) {
-            hhtml = '' + `
-        <div class="msg">
-            <p class="name">${item.name}</p>
-            <p class="message">${item.msg}</p>
-            <p class="date">${item.date}</p>
-        </div>
-        `
-        }
-        
-        //将转化好的html发送给客户端
-        socket.emit('cr',hhtml)
-        socket.broadcast.emit('cr',hhtml)
-     })
+    var nickName
+    socket.on('nick',function (data) {
+        console.log(`名为${data}的用户登陆`);
+        nickName = data 
+    })
+    
+    var msg
+    socket.on('msg',function (data) {
+        var cl = `\n${nickName}说：${data}`
+        console.log(cl);
+        msg = data
 
+        socket.emit('serverMsg',cl)
+        socket.broadcast.emit('serverMsg',cl)
+         
+        fs.appendFile('./chatLog.txt',`${cl}`,function (err) {
+            if (err) throw err;
+            console.log(`聊天记录"${cl}"成功被保存`);
+        })
+    })
 })

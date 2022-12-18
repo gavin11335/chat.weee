@@ -5,7 +5,7 @@ const io = require('socket.io');
 const http = require('http');
 const { Socket } = require('dgram');
 
-var chatLog
+var cl
 setInterval(() => {
     fs.readFile('./chatLog.txt','utf8',function (err,data) {
         if (err) {
@@ -13,7 +13,7 @@ setInterval(() => {
             return;
         }
 
-    chatLog = data
+    cl = data
     })
 }, 1000);
 
@@ -39,9 +39,11 @@ server.listen(port, hostname, () => {
 
 const ws = io.listen(server)
 
+var chatLog
 ws.on('connection',function (socket) {
     console.log('有一个客户端已连接');
- 
+
+    chatLog = cl
     socket.emit('serverMsg',chatLog)
 
     var nickName

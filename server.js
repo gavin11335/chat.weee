@@ -6,15 +6,6 @@ const http = require('http');
 const { Socket } = require('dgram');
 
 var chatLog
-/* fs.readFile('./chatLog.txt','utf8',function (err,data) {
-    if (err) {
-        console.log(err);
-        return;
-    }
-
-    chatLog = data
-}) */
-
 setInterval(() => {
     fs.readFile('./chatLog.txt','utf8',function (err,data) {
         if (err) {

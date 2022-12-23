@@ -39,8 +39,8 @@ var chatLog
 ws.on('connection',function (socket) {
     console.log('有一个客户端已连接');
 
-    chatLog = fs.readFileSync('./chatLog.txt','utf-8') 
-    socket.emit('history',chatLog,)
+    chatLog = fs.readFileSync('./chatLog.txt','utf-8')
+    socket.emit('history',chatLog)
 
     var nickName
     socket.on('nick',function (data) {

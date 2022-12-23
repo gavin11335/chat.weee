@@ -16,7 +16,8 @@ nickButton.onclick = function () {
   console.log('用户名已发送');
   nickPage.style.display = 'none'
   main.style.display = 'block'
-  chatLog.style.display = 'block' 
+  chatLog.style.display = 'block'
+  loadHistory.style.display = 'block'
 }
 
 const inputMsg = document.getElementById('inputMsg')
@@ -39,8 +40,18 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
+var history
+socket.on('history',function (...data) {
+  history = data
+})
+
+loadHistory.onclick = function () {
+  chatLog.innerText = history
+  loadHistory.style.display = 'none'
+};
+
 socket.on('serverMsg',function (...data) {
-  chatLog.innerHTML += data
+  chatLog.innerText += data
 })
 
 const scrollButton = document.getElementById('scrollButton')

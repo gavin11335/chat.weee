@@ -4,9 +4,17 @@ const fs = require('fs');
 const io = require('socket.io');
 const http = require('http');
 const { Socket } = require('dgram');
+const express = require('express')
+const app = express()
+
+app.use(express.static('client'))
+
+app.listen(3000, () => {
+    console.log("express running");
+})
 
 var page
-fs.readFile('./chat.html',function (err,data) {
+fs.readFile('./client.html',function (err,data) {
     if (err) {
         console.log(err);
         return
@@ -31,9 +39,8 @@ var chatLog
 ws.on('connection',function (socket) {
     console.log('有一个客户端已连接');
 
-    chatLog = fs.readFileSync('./chatLog.txt','utf-8')
- 
-    socket.emit('serverMsg',chatLog) 
+    chatLog = fs.readFileSync('./chatLog.txt','utf-8') 
+    socket.emit('history',chatLog,)
 
     var nickName
     socket.on('nick',function (data) {
@@ -43,7 +50,7 @@ ws.on('connection',function (socket) {
     
     var msg
     socket.on('msg',function (data) {
-        var cl = `\n${nickName}说：${data}`
+        var cl = `\n<${nickName}> : ${data}`
         console.log(cl);
         msg = data
 

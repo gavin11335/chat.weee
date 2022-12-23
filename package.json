@@ -1,5 +1,26 @@
 {
   "dependencies": {
+    "express": "^4.18.2",
     "socket.io": "^2.0.4"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "chat.weee",
+  "description": "Nodejs+socket编写的简单在线聊天室",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaivn135/chat.weee.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaivn135/chat.weee/issues"
+  },
+  "homepage": "https://github.com/gaivn135/chat.weee#readme"
 }

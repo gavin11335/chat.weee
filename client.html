@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:3000/client.css">  
+    <title>Gavin的聊天室</title>
+</head>
+<body>
+    <div id="nickPage">
+        <p id="title">Chat.Weee</p>
+        <hr>
+        <p>输入你想使用的用户名</p> 
+        <input type="text" id="nickText" maxlength="20" placeholder="Nickname" required>
+        <button type="submit" id="nickButton">GO!</button> 
+    </div>
+    <div id="chatLog"> 
+    </div>
+    <div id="main"> 
+        <input type="text" maxlength="200" id="inputMsg" placeholder="内容" required>
+        <button type="submit" id="msgButton">发送</button>
+    </div>
+    <button id="scrollButton">&darr;</button>
+    <button id="loadHistory">加载聊天记录</button>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://localhost:3000/client.js"></script>
+</body>
+</html>

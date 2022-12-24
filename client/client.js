@@ -22,15 +22,25 @@ nickButton.onclick = function () {
 const inputMsg = document.getElementById('inputMsg')
 const msgButton = document.getElementById('msgButton')
 
+function autolink(input) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return input.replace(urlRegex, function(url) {
+    return '<a href="' + url + '">' + url + '</a>'
+  }) 
+}
+
 msgButton.onclick = function () {
     if (inputMsg.value === "") {
         alert("输入框没有内容!")
         return 0;
     }
 
-    socket.emit('msg',inputMsg.value)
+    var msg = autolink(inputMsg.value)
+    socket.emit('msg',msg)
     inputMsg.value = ''
     console.log('消息已发送');
+    chatLog.style.display = 'block'
+    loadHistory.style.display = 'none'
 }
 
 document.addEventListener('keydown', function(event) {
@@ -41,14 +51,14 @@ document.addEventListener('keydown', function(event) {
 
 socket.on('history',function (data) {
   loadHistory.onclick = function () {
-    chatLog.innerText = data
+    chatLog.innerHTML = data
     loadHistory.style.display = 'none'
     chatLog.style.display = 'block'
   }
 })
 
 socket.on('serverMsg',function (...data) {
-  chatLog.innerText += data
+  chatLog.innerHTML += data
 })
 
 const scrollButton = document.getElementById('scrollButton')

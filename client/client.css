@@ -7,8 +7,8 @@
     left: 0;
     right: 0;
     padding-top: 10px;
-    box-shadow: 0px 0px 5px black; 
-    display: none;  
+    box-shadow: 0px 0px 5px black;
+    display: none;
 }
 #chatLog{
     margin-bottom: 65px;
@@ -26,23 +26,23 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%); 
+    transform: translate(-50%,-50%);
 }
 #nickText{
     padding: 10px;
     outline-style: none;
-    border-width: 1px; 
-    border-radius: 5px; 
+    border-width: 1px;
+    border-radius: 5px;
 }
 #nickButton{
-    border-width: 1px; 
+    border-width: 1px;
     padding: 10px;
     border-radius: 5px;
 }
 #inputMsg{
     width: calc(100% - 85px);
     position: relative;
-    left: 5px; 
+    left: 5px;
     bottom: 5px;
     padding: 10px;
     border-radius: 5px;
@@ -60,15 +60,15 @@
 #title{
     font-weight: bold;
 }
-#scrollButton{ 
+#scrollButton{
     position: fixed;
-    right: 15px; 
+    right: 15px;
     bottom: 65px;
     padding: 10px 15px;
     border-radius: 100px;
     box-shadow: 0px 0px 5px black;
     border-width: 0;
-    opacity: 70%; 
+    opacity: 70%;
     display: none;
 }
 #loadHistory{

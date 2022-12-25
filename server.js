@@ -50,7 +50,7 @@ ws.on('connection',function (socket) {
 
     var msg
     socket.on('msg',function (data) {
-        var cl = `<br>[${nickName}]: ${data}`
+        var cl = `<br><span class='msgName'>${nickName}</span>:<br>${data}`
         console.log(cl);
         msg = data
 

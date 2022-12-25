@@ -1,1 +1,1 @@
-[Gavin]: Hello,world!
+<span class='msgName'>Gavin</span>:<br>Hello,world!

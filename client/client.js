@@ -1,10 +1,11 @@
 const socket = io.connect('ws://localhost:5000/')
 const nickName = document.getElementById('nickText')
 const nickButton = document.getElementById('nickButton')
-const nickPage = document.getElementById('nickPage')
+const firstPage = document.getElementById('firstPage')
 const main = document.getElementById('main')
 const chatLog = document.getElementById('chatLog')
 const loadHistory = document.getElementById('loadHistory')
+const head = document.getElementById('head')
 
 nickButton.onclick = function () {
        if (nickName.value === "") {
@@ -14,9 +15,10 @@ nickButton.onclick = function () {
 
   socket.emit('nick',nickName.value)
   console.log('用户名已发送');
-  nickPage.style.display = 'none'
+  firstPage.style.display = 'none'
   main.style.display = 'block'
   loadHistory.style.display = 'block'
+  head.style.display = 'block'
 }
 
 const inputMsg = document.getElementById('inputMsg')

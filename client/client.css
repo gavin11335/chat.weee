@@ -46,7 +46,7 @@ body,html{
 }
 #nickButton{
     border-width: 0;
-    padding: 10px;
+    padding: 11px 12px;
     border-radius: 100px;
     background-color: #3385ff;
     color: white;
@@ -63,7 +63,7 @@ body,html{
 }
 #msgButton{
     width: auto;
-    padding: 10px;
+    padding: 11px 12px;
     position: relative;
     bottom: 4px;
     left: 14px;
@@ -80,7 +80,7 @@ body,html{
     position: fixed;
     right: 15px;
     bottom: 65px;
-    padding: 10px 14px;
+    padding: 10px 13px;
     border-radius: 100px;
     background-color: #cccccc; 
     border-width: 0;

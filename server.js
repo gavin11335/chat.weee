@@ -39,7 +39,7 @@ var chatLog
 ws.on('connection',function (socket) {
     console.log('有一个客户端已连接');
 
-    chatLog = fs.readFileSync('./chatLog.txt','utf-8')
+    chatLog = fs.readFileSync('./chatLog.html','utf-8')
     socket.emit('history',chatLog)
 
     var nickName
@@ -48,18 +48,28 @@ ws.on('connection',function (socket) {
         nickName = data
     })
 
-    var msg
+    var email
+    socket.on('email',function (data) {
+        email = data
+    })
+
     socket.on('msg',function (data) {
-        var cl = `<br><span class='msgName'>${nickName}</span>:<br>${data}`
-        console.log(cl);
-        msg = data
+        var cl = `
+<div>
+    <img src="https://www.gravatar.com/avatar/${email}?s=35" class="avatar">
+    <p class="msg">
+        <span class="msgName">${nickName}:</span><br>
+        <span class="msgContent">${data}</span>
+    </p>
+</div> 
+`
 
         socket.emit('serverMsg',cl)
         socket.broadcast.emit('serverMsg',cl)
 
-        fs.appendFile('./chatLog.txt',`${cl}`,function (err) {
+        fs.appendFile('./chatLog.html',`${cl}`,function (err) {
             if (err) throw err;
-            console.log(`聊天记录"${cl}"成功被保存`);
+            console.log(`聊天记录"${nickName}: ${data}"成功被保存`);
         })
     })
 })

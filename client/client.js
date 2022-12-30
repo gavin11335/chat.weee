@@ -1,20 +1,23 @@
 const socket = io.connect('ws://localhost:5000/')
 const nickName = document.getElementById('nickText')
-const nickButton = document.getElementById('nickButton')
+const goButton = document.getElementById('goButton')
 const firstPage = document.getElementById('firstPage')
 const main = document.getElementById('main')
 const chatLog = document.getElementById('chatLog')
 const loadHistory = document.getElementById('loadHistory')
 const head = document.getElementById('head')
+const email = document.getElementById('emailText')
 
-nickButton.onclick = function () {
-       if (nickName.value === "") {
-        alert("输入框没有内容!")
-        return 0;
-    }
+goButton.onclick = function () {
 
+  if (nickName.value === '') {
+    alert("没有输入Nickname!")
+    return 0;
+  }
+
+  var hash = md5(email.value.toLowerCase())
   socket.emit('nick',nickName.value)
-  console.log('用户名已发送');
+  socket.emit('email',hash)
   firstPage.style.display = 'none'
   main.style.display = 'block'
   loadHistory.style.display = 'block'

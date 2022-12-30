@@ -1,1 +1,0 @@
-<span class='msgName'>Gavin</span>:<br>Hello,world!
